@@ -7,79 +7,137 @@
 
 import SwiftUI
 import CoreData
+import CloudKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    
+    @FetchRequest(entity: Drawing.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Drawing.title, ascending: true)])
+    private var drawings: FetchedResults<Drawing>
+    
+    @State private var showSheet = false
+    
+    @State private var selectedId: Drawing.ID = nil
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+        NavigationSplitView {
+            List{
+                ForEach(drawings) { drawing in
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        if selectedId == drawing.id {
+                            Button {
+                                selectedId = drawing.id
+                                print("\(String(describing: selectedId))")
+                            } label: {
+                                HStack {
+                                    Text(drawing.title ?? "Untitled")
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 8)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.blue)
+                                    .padding(.vertical, -10)
+                                    .padding(.horizontal, -10)
+                                    .frame(maxWidth: .infinity)
+                            )
+                        } else {
+                            Button {
+                                selectedId = drawing.id
+                                print("\(String(describing: selectedId))")
+                            } label: {
+                                HStack {
+                                    Text(drawing.title ?? "Untitled")
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 8)
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                    } else {
+                        NavigationLink(destination: DrawingView(id: drawing.id, data: drawing.canvasData, title: drawing.title)) {
+                            Text(drawing.title ?? "Untitled")
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: deleteItem)
             }
+            .refreshable {
+                // Fetch and sync data from CloudKit
+                PersistenceController.shared.fetchAndSyncData { success in
+                    if success {
+                        // After data is fetched and synced, reload the fetched results
+                        do {
+                            try viewContext.save() // Save any changes before refreshing
+                            viewContext.refreshAllObjects()
+                        } catch {
+                            print("Error saving or refreshing: \(error)")
+                        }
+                    } else {
+                        print("Error fetching and syncing data")
+                    }
+                }
+            }
+            
+            Button(action: {
+                self.showSheet.toggle()
+            }, label: {
+                HStack {
+                    Image(systemName: "plus")
+                    Text("Add Board")
+                }
+            })
+            .foregroundColor(.blue)
+            .sheet(isPresented: $showSheet, content: {
+                AddNewCanvasView().environment(\.managedObjectContext, viewContext)
+            })
+            .navigationTitle(Text("Board "))
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                EditButton()
+            }
+            
+        } detail: {
+            if selectedId != nil {
+                ForEach(drawings) { drawing in
+                    if drawing.id == selectedId {
+                        DrawingView(id: drawing.id, data: drawing.canvasData, title: drawing.title)
                     }
                 }
+            } else {
+                VStack {
+                    Image(systemName: "scribble.variable")
+                        .font(.largeTitle)
+                    Text("No board has been selected")
+                        .font(.title)
+                }
+                    .navigationTitle("")
             }
-            Text("Select an item")
+            
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
+    
+    
+    
+    func deleteItem(at offset: IndexSet) {
+        for index in offset {
+            let itemToDelete = drawings[index]
+            viewContext.delete(itemToDelete)
+            
+            if drawings[index].id == selectedId {
+                selectedId = nil
+            }
+            
             do {
                 try viewContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                print(error)
             }
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

@@ -7,15 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940E11142A8638DD0046848A /* DrawingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940E11132A8638DD0046848A /* DrawingViewModel.swift */; };
+		947CB03B2A84CF9F00F15013 /* MultipeerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947CB03A2A84CF9F00F15013 /* MultipeerViewModel.swift */; };
 		94FBDC3A2A84CDBE00829A94 /* ShareBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC392A84CDBE00829A94 /* ShareBoardApp.swift */; };
 		94FBDC3C2A84CDBE00829A94 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC3B2A84CDBE00829A94 /* ContentView.swift */; };
 		94FBDC3E2A84CDBF00829A94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94FBDC3D2A84CDBF00829A94 /* Assets.xcassets */; };
 		94FBDC412A84CDBF00829A94 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94FBDC402A84CDBF00829A94 /* Preview Assets.xcassets */; };
 		94FBDC432A84CDBF00829A94 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC422A84CDBF00829A94 /* Persistence.swift */; };
 		94FBDC462A84CDBF00829A94 /* ShareBoard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC442A84CDBF00829A94 /* ShareBoard.xcdatamodeld */; };
+		94FBDC4E2A84CE6800829A94 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC4D2A84CE6800829A94 /* DrawingView.swift */; };
+		94FBDC512A84CE9400829A94 /* DrawingCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC502A84CE9400829A94 /* DrawingCanvasViewController.swift */; };
+		94FBDC532A84CEF500829A94 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC522A84CEF500829A94 /* DrawingCanvasView.swift */; };
+		94FBDC552A84CF1B00829A94 /* AddNewCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC542A84CF1B00829A94 /* AddNewCanvasView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		940E11132A8638DD0046848A /* DrawingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingViewModel.swift; sourceTree = "<group>"; };
+		947CB03A2A84CF9F00F15013 /* MultipeerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerViewModel.swift; sourceTree = "<group>"; };
+		947CB03C2A84D71400F15013 /* ShareBoard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareBoard.entitlements; sourceTree = "<group>"; };
 		94FBDC362A84CDBE00829A94 /* ShareBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94FBDC392A84CDBE00829A94 /* ShareBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareBoardApp.swift; sourceTree = "<group>"; };
 		94FBDC3B2A84CDBE00829A94 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -24,6 +33,10 @@
 		94FBDC422A84CDBF00829A94 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		94FBDC452A84CDBF00829A94 /* ShareBoard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShareBoard.xcdatamodel; sourceTree = "<group>"; };
 		94FBDC472A84CDBF00829A94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94FBDC4D2A84CE6800829A94 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		94FBDC502A84CE9400829A94 /* DrawingCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasViewController.swift; sourceTree = "<group>"; };
+		94FBDC522A84CEF500829A94 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
+		94FBDC542A84CF1B00829A94 /* AddNewCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCanvasView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +69,14 @@
 		94FBDC382A84CDBE00829A94 /* ShareBoard */ = {
 			isa = PBXGroup;
 			children = (
+				947CB03C2A84D71400F15013 /* ShareBoard.entitlements */,
 				94FBDC392A84CDBE00829A94 /* ShareBoardApp.swift */,
 				94FBDC3B2A84CDBE00829A94 /* ContentView.swift */,
+				940E11132A8638DD0046848A /* DrawingViewModel.swift */,
+				947CB03A2A84CF9F00F15013 /* MultipeerViewModel.swift */,
+				94FBDC4D2A84CE6800829A94 /* DrawingView.swift */,
+				94FBDC542A84CF1B00829A94 /* AddNewCanvasView.swift */,
+				94FBDC4F2A84CE7B00829A94 /* Canvas */,
 				94FBDC3D2A84CDBF00829A94 /* Assets.xcassets */,
 				94FBDC422A84CDBF00829A94 /* Persistence.swift */,
 				94FBDC472A84CDBF00829A94 /* Info.plist */,
@@ -73,6 +92,15 @@
 				94FBDC402A84CDBF00829A94 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		94FBDC4F2A84CE7B00829A94 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				94FBDC502A84CE9400829A94 /* DrawingCanvasViewController.swift */,
+				94FBDC522A84CEF500829A94 /* DrawingCanvasView.swift */,
+			);
+			path = Canvas;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,8 +175,14 @@
 			files = (
 				94FBDC432A84CDBF00829A94 /* Persistence.swift in Sources */,
 				94FBDC3C2A84CDBE00829A94 /* ContentView.swift in Sources */,
+				94FBDC4E2A84CE6800829A94 /* DrawingView.swift in Sources */,
+				94FBDC552A84CF1B00829A94 /* AddNewCanvasView.swift in Sources */,
+				94FBDC512A84CE9400829A94 /* DrawingCanvasViewController.swift in Sources */,
 				94FBDC462A84CDBF00829A94 /* ShareBoard.xcdatamodeld in Sources */,
 				94FBDC3A2A84CDBE00829A94 /* ShareBoardApp.swift in Sources */,
+				940E11142A8638DD0046848A /* DrawingViewModel.swift in Sources */,
+				94FBDC532A84CEF500829A94 /* DrawingCanvasView.swift in Sources */,
+				947CB03B2A84CF9F00F15013 /* MultipeerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,12 +308,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ShareBoard/ShareBoard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShareBoard/Preview Content\"";
 				DEVELOPMENT_TEAM = 4QQ5D4534V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShareBoard/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -303,12 +339,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ShareBoard/ShareBoard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShareBoard/Preview Content\"";
 				DEVELOPMENT_TEAM = 4QQ5D4534V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShareBoard/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

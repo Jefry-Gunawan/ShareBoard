@@ -6,10 +6,11 @@
 //
 
 import CoreData
+import CloudKit
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
+    
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
@@ -27,9 +28,9 @@ struct PersistenceController {
         }
         return result
     }()
-
+    
     let container: NSPersistentCloudKitContainer
-
+    
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "ShareBoard")
         if inMemory {
@@ -39,7 +40,7 @@ struct PersistenceController {
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
+                
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -52,5 +53,38 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    func fetchAndSyncData(completion: @escaping (Bool) -> Void) {
+        let container = CKContainer.default()
+        let database = container.privateCloudDatabase // Use publicCloudDatabase for fetching data
+        
+        let query = CKQuery(recordType: "CD_Drawing", predicate: NSPredicate(value: true))
+        
+        database.perform(query, inZoneWith: nil) { (records, error) in
+            if let error = error {
+                print("Error fetching data from CloudKit: \(error)")
+                completion(false)
+            } else if let records = records {
+                DispatchQueue.main.async {
+                    self.updateCoreData(with: records)
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    private func updateCoreData(with cloudKitRecords: [CKRecord]) {
+        let viewContext = container.viewContext // Use the container's viewContext
+        
+//        for record in cloudKitRecords {
+//            let newItem = Drawing(context: viewContext)
+//            newItem.title = record["title"] as? String
+//        }
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error saving Core Data changes: \(error)")
+        }
     }
 }
