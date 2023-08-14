@@ -53,6 +53,7 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
     }
     
     func fetchAndSyncData(completion: @escaping (Bool) -> Void) {
@@ -68,6 +69,7 @@ struct PersistenceController {
             } else if let records = records {
                 DispatchQueue.main.async {
                     self.updateCoreData(with: records)
+                    print("Record ce amel : \(records)")
                     completion(true)
                 }
             }
@@ -75,12 +77,25 @@ struct PersistenceController {
     }
     
     private func updateCoreData(with cloudKitRecords: [CKRecord]) {
-        let viewContext = container.viewContext // Use the container's viewContext
+//        let result = PersistenceController(inMemory: true)
+        let viewContext = container.viewContext
         
-//        for record in cloudKitRecords {
+        // Delete existing records from Core Data
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Drawing.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try viewContext.execute(deleteRequest)
+        } catch {
+            print("Error deleting existing Core Data records: \(error)")
+        }
+        
+        for record in cloudKitRecords {
 //            let newItem = Drawing(context: viewContext)
-//            newItem.title = record["title"] as? String
-//        }
+//            newItem.id = record["CD_id"] as? UUID
+//            newItem.title = record["CD_title"] as? String
+//            newItem.canvasData = record["CD_canvasData"] as? Data
+        }
         do {
             try viewContext.save()
         } catch {

@@ -19,6 +19,8 @@ struct ContentView: View {
     
     @State private var selectedId: Drawing.ID = nil
     
+//    @ObservedObject var multipeerConn: MultipeerViewModel = MultipeerViewModel()
+    
     var body: some View {
         NavigationSplitView {
             List{
@@ -64,22 +66,6 @@ struct ContentView: View {
                     }
                 }
                 .onDelete(perform: deleteItem)
-            }
-            .refreshable {
-                // Fetch and sync data from CloudKit
-                PersistenceController.shared.fetchAndSyncData { success in
-                    if success {
-                        // After data is fetched and synced, reload the fetched results
-                        do {
-                            try viewContext.save() // Save any changes before refreshing
-                            viewContext.refreshAllObjects()
-                        } catch {
-                            print("Error saving or refreshing: \(error)")
-                        }
-                    } else {
-                        print("Error fetching and syncing data")
-                    }
-                }
             }
             
             Button(action: {
