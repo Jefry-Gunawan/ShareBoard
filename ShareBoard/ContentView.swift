@@ -16,10 +16,13 @@ struct ContentView: View {
     private var drawings: FetchedResults<Drawing>
     
     @State private var showSheet = false
+    @State private var showJoinSheet = false
     
     @State private var selectedId: Drawing.ID = nil
     
-//    @ObservedObject var multipeerConn: MultipeerViewModel = MultipeerViewModel()
+    @EnvironmentObject var multipeerConn: MultipeerViewModel 
+    
+    @State private var showAlert: Bool = false
     
     var body: some View {
         NavigationSplitView {
@@ -80,6 +83,36 @@ struct ContentView: View {
             .sheet(isPresented: $showSheet, content: {
                 AddNewCanvasView().environment(\.managedObjectContext, viewContext)
             })
+            
+            Button(action: {
+                self.showAlert.toggle()
+            }, label: {
+                Text("Join Board")
+            })
+            .alert("Choose your action first", isPresented: $showAlert, actions: {
+                Button {
+                    multipeerConn.invite()
+                } label: {
+                    Text("Connect with host")
+                }
+                
+                Button {
+                    self.showJoinSheet.toggle()
+                } label: {
+                    Text("Open Host Board")
+                }
+                
+                Button {
+                    
+                } label: {
+                    Text("Dismiss")
+                }
+
+            })
+            .fullScreenCover(isPresented: $showJoinSheet, content: {
+                JoinView()
+            })
+            
             .navigationTitle(Text("Board "))
             .toolbar {
                 EditButton()
@@ -89,6 +122,7 @@ struct ContentView: View {
             if selectedId != nil {
                 ForEach(drawings) { drawing in
                     if drawing.id == selectedId {
+                        let _ = print("CanvasData : \(drawing.canvasData ?? Data())")
                         DrawingView(id: drawing.id, data: drawing.canvasData, title: drawing.title)
                     }
                 }

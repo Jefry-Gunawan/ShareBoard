@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		940E11142A8638DD0046848A /* DrawingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940E11132A8638DD0046848A /* DrawingViewModel.swift */; };
+		9467B0B42A8B7EFF004716BB /* JoinCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9467B0B32A8B7EFF004716BB /* JoinCanvasView.swift */; };
+		9467B0B62A8B7F0D004716BB /* JoinCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9467B0B52A8B7F0D004716BB /* JoinCanvasViewController.swift */; };
+		94797AF92A8A6E0C008B9B7D /* JoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94797AF82A8A6E0C008B9B7D /* JoinView.swift */; };
 		947CB03B2A84CF9F00F15013 /* MultipeerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947CB03A2A84CF9F00F15013 /* MultipeerViewModel.swift */; };
 		94FBDC3A2A84CDBE00829A94 /* ShareBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC392A84CDBE00829A94 /* ShareBoardApp.swift */; };
 		94FBDC3C2A84CDBE00829A94 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBDC3B2A84CDBE00829A94 /* ContentView.swift */; };
@@ -22,7 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		940E11132A8638DD0046848A /* DrawingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingViewModel.swift; sourceTree = "<group>"; };
+		9467B0B32A8B7EFF004716BB /* JoinCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCanvasView.swift; sourceTree = "<group>"; };
+		9467B0B52A8B7F0D004716BB /* JoinCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCanvasViewController.swift; sourceTree = "<group>"; };
+		94797AF82A8A6E0C008B9B7D /* JoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinView.swift; sourceTree = "<group>"; };
 		947CB03A2A84CF9F00F15013 /* MultipeerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerViewModel.swift; sourceTree = "<group>"; };
 		947CB03C2A84D71400F15013 /* ShareBoard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareBoard.entitlements; sourceTree = "<group>"; };
 		94FBDC362A84CDBE00829A94 /* ShareBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,7 +76,7 @@
 				947CB03C2A84D71400F15013 /* ShareBoard.entitlements */,
 				94FBDC392A84CDBE00829A94 /* ShareBoardApp.swift */,
 				94FBDC3B2A84CDBE00829A94 /* ContentView.swift */,
-				940E11132A8638DD0046848A /* DrawingViewModel.swift */,
+				94797AF82A8A6E0C008B9B7D /* JoinView.swift */,
 				947CB03A2A84CF9F00F15013 /* MultipeerViewModel.swift */,
 				94FBDC4D2A84CE6800829A94 /* DrawingView.swift */,
 				94FBDC542A84CF1B00829A94 /* AddNewCanvasView.swift */,
@@ -98,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				94FBDC502A84CE9400829A94 /* DrawingCanvasViewController.swift */,
+				9467B0B32A8B7EFF004716BB /* JoinCanvasView.swift */,
+				9467B0B52A8B7F0D004716BB /* JoinCanvasViewController.swift */,
 				94FBDC522A84CEF500829A94 /* DrawingCanvasView.swift */,
 			);
 			path = Canvas;
@@ -176,12 +182,14 @@
 				94FBDC432A84CDBF00829A94 /* Persistence.swift in Sources */,
 				94FBDC3C2A84CDBE00829A94 /* ContentView.swift in Sources */,
 				94FBDC4E2A84CE6800829A94 /* DrawingView.swift in Sources */,
+				9467B0B42A8B7EFF004716BB /* JoinCanvasView.swift in Sources */,
+				9467B0B62A8B7F0D004716BB /* JoinCanvasViewController.swift in Sources */,
 				94FBDC552A84CF1B00829A94 /* AddNewCanvasView.swift in Sources */,
 				94FBDC512A84CE9400829A94 /* DrawingCanvasViewController.swift in Sources */,
 				94FBDC462A84CDBF00829A94 /* ShareBoard.xcdatamodeld in Sources */,
 				94FBDC3A2A84CDBE00829A94 /* ShareBoardApp.swift in Sources */,
-				940E11142A8638DD0046848A /* DrawingViewModel.swift in Sources */,
 				94FBDC532A84CEF500829A94 /* DrawingCanvasView.swift in Sources */,
+				94797AF92A8A6E0C008B9B7D /* JoinView.swift in Sources */,
 				947CB03B2A84CF9F00F15013 /* MultipeerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,6 +324,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareBoard/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Local network will be used for sharing your board";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -348,6 +357,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareBoard/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Local network will be used for sharing your board";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

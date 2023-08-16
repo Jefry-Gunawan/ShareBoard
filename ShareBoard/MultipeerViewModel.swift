@@ -8,13 +8,19 @@
 import Foundation
 import MultipeerConnectivity
 
+protocol MultipeerViewModelDelegate: AnyObject {
+    func didUpdateConnectedPeers(_ peers: [MCPeerID])
+}
+
 class MultipeerViewModel: NSObject, ObservableObject {
     
-    let serviceType = "draw-conn"
+    let serviceType = "board-conn"
     
     var peerId: MCPeerID
     var session: MCSession
     var nearbyServiceAdvertiser: MCNearbyServiceAdvertiser?
+    
+    @Published var binaryDataOut: Data = Data()
     
     override init() {
         peerId = MCPeerID(displayName: UIDevice.current.name)
@@ -23,7 +29,15 @@ class MultipeerViewModel: NSObject, ObservableObject {
         session.delegate = self
     }
     
-    func advertise() {
+    func advertise(boardCode: String) {
+        session.delegate = nil
+        session.disconnect()
+        
+        peerId = MCPeerID(displayName: boardCode)
+        
+        session = MCSession(peer: peerId, securityIdentity: nil, encryptionPreference: .required)
+        session.delegate = self
+        
         nearbyServiceAdvertiser = MCNearbyServiceAdvertiser(peer: peerId, discoveryInfo: nil, serviceType: serviceType)
         nearbyServiceAdvertiser?.delegate = self
         nearbyServiceAdvertiser?.startAdvertisingPeer()
@@ -33,6 +47,34 @@ class MultipeerViewModel: NSObject, ObservableObject {
         let browser = MCBrowserViewController(serviceType: serviceType, session: session)
         browser.delegate = self
         UIApplication.shared.windows.first?.rootViewController?.present(browser, animated: true)
+    }
+    
+    func disconnectAndStopAdvertising() {
+        session.disconnect()
+        nearbyServiceAdvertiser?.stopAdvertisingPeer()
+        nearbyServiceAdvertiser = nil
+    }
+    
+    func sendBinaryData(_ data: Data) {
+        if session.connectedPeers.isEmpty {
+            print("No connected peers.")
+            return
+        }
+        
+        do {
+            try session.send(data, toPeers: session.connectedPeers, with: .reliable)
+            print("Binary data sent: \(data.count) bytes")
+        } catch {
+            print("Error sending binary data: \(error.localizedDescription)")
+        }
+    }
+    
+    func getBinaryData() -> Data {
+        return binaryDataOut
+    }
+    
+    deinit {
+        disconnectAndStopAdvertising()
     }
 }
 
@@ -51,7 +93,11 @@ extension MultipeerViewModel: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        
+        print("Received binary data from \(peerID.displayName): \(data.count) bytes")
+        DispatchQueue.main.async {
+            self.binaryDataOut = data
+        }
+        print("Binary Data Out \(binaryDataOut)")
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
