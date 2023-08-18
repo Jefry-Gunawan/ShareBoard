@@ -31,6 +31,8 @@ struct DrawingCanvasView: UIViewControllerRepresentable {
             multipeerConn.sendBinaryData(data)
         }
         
+        multipeerConn.binaryDataFirstSend = data
+                
         viewController.drawingData = data
         viewController.drawingChanged = {data in
             multipeerConn.sendBinaryData(data)

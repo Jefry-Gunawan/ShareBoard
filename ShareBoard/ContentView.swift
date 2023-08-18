@@ -71,47 +71,57 @@ struct ContentView: View {
                 .onDelete(perform: deleteItem)
             }
             
-            Button(action: {
-                self.showSheet.toggle()
-            }, label: {
-                HStack {
-                    Image(systemName: "plus")
-                    Text("Add Board")
-                }
-            })
-            .foregroundColor(.blue)
-            .sheet(isPresented: $showSheet, content: {
-                AddNewCanvasView().environment(\.managedObjectContext, viewContext)
-            })
-            
-            Button(action: {
-                self.showAlert.toggle()
-            }, label: {
-                Text("Join Board")
-            })
-            .alert("Choose your action first", isPresented: $showAlert, actions: {
-                Button {
-                    multipeerConn.invite()
-                } label: {
-                    Text("Connect with host")
-                }
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.showSheet.toggle()
+                }, label: {
+                    HStack {
+                        Image(systemName: "plus")
+                        Text("Add Board")
+                    }
+                })
+                .buttonStyle(.bordered)
+                .foregroundColor(.blue)
+                .sheet(isPresented: $showSheet, content: {
+                    AddNewCanvasView().environment(\.managedObjectContext, viewContext)
+                })
                 
-                Button {
-                    self.showJoinSheet.toggle()
-                } label: {
-                    Text("Open Host Board")
-                }
+                Spacer()
                 
-                Button {
+                Button(action: {
+                    self.showAlert.toggle()
+                }, label: {
+                    Text("Join Board")
+                })
+                .alert("Choose your action first", isPresented: $showAlert, actions: {
+                    Button {
+                        multipeerConn.invite()
+                    } label: {
+                        Text("Connect with host")
+                    }
                     
-                } label: {
-                    Text("Dismiss")
-                }
+                    Button {
+                        self.showJoinSheet.toggle()
+                    } label: {
+                        Text("Open Host Board")
+                    }
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("Dismiss")
+                    }
 
-            })
-            .fullScreenCover(isPresented: $showJoinSheet, content: {
-                JoinView()
-            })
+                })
+                .buttonStyle(.bordered)
+                .fullScreenCover(isPresented: $showJoinSheet, content: {
+                    JoinView()
+                })
+                Spacer()
+            }
+            .padding(.vertical, 5)
+            
             
             .navigationTitle(Text("Board "))
             .toolbar {

@@ -22,6 +22,8 @@ class MultipeerViewModel: NSObject, ObservableObject {
     
     @Published var binaryDataOut: Data = Data()
     
+    var binaryDataFirstSend: Data = Data()
+    
     override init() {
         peerId = MCPeerID(displayName: UIDevice.current.name)
         session = MCSession(peer: peerId, securityIdentity: nil, encryptionPreference: .required)
@@ -46,7 +48,7 @@ class MultipeerViewModel: NSObject, ObservableObject {
     func invite() {
         let browser = MCBrowserViewController(serviceType: serviceType, session: session)
         browser.delegate = self
-        UIApplication.shared.windows.first?.rootViewController?.present(browser, animated: true)
+        UIApplication.shared.currentUIWindow()?.rootViewController?.present(browser, animated: true)
     }
     
     func disconnectAndStopAdvertising() {
@@ -63,6 +65,9 @@ class MultipeerViewModel: NSObject, ObservableObject {
         
         do {
             try session.send(data, toPeers: session.connectedPeers, with: .reliable)
+            DispatchQueue.main.async {
+                self.binaryDataFirstSend = data
+            }
             print("Binary data sent: \(data.count) bytes")
         } catch {
             print("Error sending binary data: \(error.localizedDescription)")
@@ -85,6 +90,7 @@ extension MultipeerViewModel: MCSessionDelegate {
             print("\(peerId) state: connecting")
         case .connected:
             print("\(peerId) state: connected")
+            sendBinaryData(binaryDataFirstSend)
         case .notConnected:
             print("\(peerId) state: not connected")
         @unknown default:
@@ -126,6 +132,21 @@ extension MultipeerViewModel: MCBrowserViewControllerDelegate {
     
     func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
         browserViewController.dismiss(animated: true)
+    }
+}
+
+public extension UIApplication {
+    func currentUIWindow() -> UIWindow? {
+        let connectedScenes = UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .compactMap { $0 as? UIWindowScene }
+        
+        let window = connectedScenes.first?
+            .windows
+            .first { $0.isKeyWindow }
+
+        return window
+        
     }
 }
 
