@@ -70,62 +70,61 @@ struct ContentView: View {
                 }
                 .onDelete(perform: deleteItem)
             }
-            
-            HStack {
-                Spacer()
-                Button(action: {
-                    self.showSheet.toggle()
-                }, label: {
-                    HStack {
-                        Image(systemName: "plus")
-                        Text("Add Board")
-                    }
-                })
-                .buttonStyle(.bordered)
-                .foregroundColor(.blue)
-                .sheet(isPresented: $showSheet, content: {
-                    AddNewCanvasView().environment(\.managedObjectContext, viewContext)
-                })
-                
-                Spacer()
-                
-                Button(action: {
-                    self.showAlert.toggle()
-                }, label: {
-                    Text("Join Board")
-                })
-                .alert("Choose your action first", isPresented: $showAlert, actions: {
-                    Button {
-                        multipeerConn.invite()
-                    } label: {
-                        Text("Connect with host")
-                    }
-                    
-                    Button {
-                        self.showJoinSheet.toggle()
-                    } label: {
-                        Text("Open Host Board")
-                    }
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Dismiss")
-                    }
-
-                })
-                .buttonStyle(.bordered)
-                .fullScreenCover(isPresented: $showJoinSheet, content: {
-                    JoinView()
-                })
-                Spacer()
-            }
-            .padding(.vertical, 5)
-            
-            
             .navigationTitle(Text("Board "))
             .toolbar {
                 EditButton()
+            }
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.bottomBar) {
+                    HStack {
+                        Button(action: {
+                            self.showSheet.toggle()
+                        }, label: {
+                            HStack {
+                                Image(systemName: "plus")
+                                Text("Add Board")
+                            }
+                        })
+                        .frame(maxWidth: .infinity)
+                        .buttonStyle(.bordered)
+                        .foregroundColor(.blue)
+                        .sheet(isPresented: $showSheet, content: {
+                            AddNewCanvasView().environment(\.managedObjectContext, viewContext)
+                        })
+                        
+                        
+                        Button(action: {
+                            self.showAlert.toggle()
+                        }, label: {
+                            Text("Join Board")
+                        })
+                        .alert("Choose your action first", isPresented: $showAlert, actions: {
+                            Button {
+                                multipeerConn.invite()
+                            } label: {
+                                Text("Connect with host")
+                            }
+                            
+                            Button {
+                                self.showJoinSheet.toggle()
+                            } label: {
+                                Text("Open Host Board")
+                            }
+                            
+                            Button {
+                                
+                            } label: {
+                                Text("Dismiss")
+                            }
+
+                        })
+                        .frame(maxWidth: .infinity)
+                        .buttonStyle(.bordered)
+                        .fullScreenCover(isPresented: $showJoinSheet, content: {
+                            JoinView()
+                        })
+                    }
+                }
             }
             
         } detail: {

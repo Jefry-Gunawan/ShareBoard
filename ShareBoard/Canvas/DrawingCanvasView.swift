@@ -16,6 +16,7 @@ struct DrawingCanvasView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: DrawingCanvasViewController, context: Context) {
         uiViewController.drawingData = data
+        multipeerConn.binaryDataFirstSend = data
     }
     typealias UIViewControllerType = DrawingCanvasViewController
     

@@ -27,7 +27,6 @@ struct DrawingView: View {
                 .navigationBarTitle(title ?? "Untitled", displayMode: .inline)
                 .toolbar {
                     Button {
-//                        multipeerConn.advertise(title: self.title ?? "")
                         self.showAlert.toggle()
                     } label: {
                         Text("Share")
