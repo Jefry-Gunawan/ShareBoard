@@ -20,6 +20,8 @@ struct DrawingView: View {
     @State var data: Data?
     @State var title: String?
     
+    @State private var showSharedAlert: Bool = false
+    
     var body: some View {
         VStack {
             DrawingCanvasView(data: data ?? Data(), id: id ?? UUID())
@@ -39,6 +41,9 @@ struct DrawingView: View {
                     } message: {
                         Text("Please enter your desired board code")
                     }
+                    .alert("Board Code made succesfully", isPresented: $showSharedAlert) {} message: {
+                        Text("You can invite other to join this board using the code you made")
+                    }
 
                 }
         }
@@ -48,7 +53,12 @@ struct DrawingView: View {
     }
     
     func submit() {
-        multipeerConn.advertise(boardCode: self.boardCode)
+        if boardCode == "" {
+            multipeerConn.advertise(boardCode: "Untitled")
+        } else {
+            multipeerConn.advertise(boardCode: self.boardCode)
+        }
+        showSharedAlert = true
     }
 }
 

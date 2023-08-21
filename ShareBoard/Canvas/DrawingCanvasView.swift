@@ -36,6 +36,7 @@ struct DrawingCanvasView: UIViewControllerRepresentable {
                 
         viewController.drawingData = data
         viewController.drawingChanged = {data in
+            multipeerConn.binaryDataFirstSend = data
             multipeerConn.sendBinaryData(data)
             
             let request: NSFetchRequest<Drawing> = Drawing.fetchRequest()

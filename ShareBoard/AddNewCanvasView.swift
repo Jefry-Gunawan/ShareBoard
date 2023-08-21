@@ -18,11 +18,11 @@ struct AddNewCanvasView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Canvas Title", text: $canvasTitle)
+                    TextField("Board Title", text: $canvasTitle)
                 }
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .navigationTitle(Text("Add New Canvas"))
+            .navigationTitle(Text("Add New Board"))
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
